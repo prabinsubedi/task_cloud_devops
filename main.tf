@@ -60,6 +60,8 @@ module "lambda" {
   description     = "Python hello world lambda."
   handler         = "function.handler"
   albTargetGroup = module.elb.albTargetGroup
+  bucketFileName = module.s3.bucket_files
+  awsRegion = var.awsRegion
 }
 
 module "elb" {

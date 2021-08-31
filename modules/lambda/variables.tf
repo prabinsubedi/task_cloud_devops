@@ -20,3 +20,7 @@ variable "lambdaRole" {
     description = "Lamda Function Description"
 }
 variable "albTargetGroup" {}
+
+variable "bucketFileName" {}
+
+variable "awsRegion" {}

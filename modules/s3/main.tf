@@ -29,7 +29,7 @@ resource "aws_s3_bucket" "bucket_files" {
 resource "aws_s3_bucket" "bucket_elb_logs" {
   bucket = "${var.bucketName}-elb-logs"
   acl    = var.acl
-  
+  force_destroy = true
   lifecycle_rule {
     id                                     = "cleanup"
     enabled                                = true
@@ -57,32 +57,34 @@ resource "aws_s3_bucket" "bucket_elb_logs" {
       }
   }
 }
-# data "aws_elb_service_account" "main" {}
-# resource "aws_s3_bucket_policy" "access_logs" {
-#   bucket = aws_s3_bucket.bucket_elb_logs.arn
+data "aws_elb_service_account" "main" {}
 
-#   policy = <<POLICY
-# {
-#   "Id": "Policy",
-#   "Version": "2012-10-17",
-#   "Statement": [
-#     {
-#       "Action": [
-#         "s3:PutObject"
-#       ],
-#       "Effect": "Allow",
-#       "Resource": [
-#         "${aws_s3_bucket.bucket_elb_logs.arn}",
-#         "${aws_s3_bucket.bucket_elb_logs.arn}/*"
-#       ],
-#       "Principal": {
-#         "AWS": [ "${data.aws_elb_service_account.main.arn}" ]
-#       }
-#     }
-#   ]
-# }
-# POLICY
-# }
+# Creating policy on S3, for lb to write
+resource "aws_s3_bucket_policy" "bucket-policy-lb" {
+  bucket = aws_s3_bucket.bucket_elb_logs.id
+
+  policy = <<POLICY
+{
+  "Id": "loadBalancerBucketPolicy",
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "testStmt1561031516716",
+      "Action": [
+        "s3:PutObject"
+      ],
+      "Effect": "Allow",
+      "Resource": "${aws_s3_bucket.bucket_elb_logs.arn}/*",
+      "Principal": {
+        "AWS": [
+           "${data.aws_elb_service_account.main.arn}"
+        ]
+      }
+    }
+  ]
+}
+POLICY
+}
 
 # generate the 1001 files 
 resource "null_resource" "create_files" {
@@ -102,6 +104,16 @@ resource "null_resource" "upload_files" {
   ]
 }
 
+resource "null_resource" "remove_files" {
+  provisioner "local-exec" {
+    command = "rm ${path.module}/filesListS3Upload/*.txt"
+  }
+  depends_on = [
+    aws_s3_bucket.bucket_files,
+    null_resource.create_files,
+    null_resource.upload_files
+  ]
+}
 
 
 # resource "aws_s3_bucket_object" "object_upload" {

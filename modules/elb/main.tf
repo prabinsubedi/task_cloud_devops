@@ -4,11 +4,11 @@ resource "aws_lb" "lambda_function_access" {
   security_groups    = [var.securityGroup]
   subnets            = var.publicSubnet
 
-  # access_logs {
-  #   bucket  = var.accessLogBucket
-  #   prefix  = "access-log"
-  #   enabled = true
-  # }
+  access_logs {
+    bucket  = var.accessLogBucket
+    prefix  = "access-log"
+    enabled = true
+  }
 
   tags = {
     Environment = var.environment
