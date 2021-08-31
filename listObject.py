@@ -1,4 +1,4 @@
-
+# This is Local Test python Script for lamda Function 
 import boto3
 import json
 import os 

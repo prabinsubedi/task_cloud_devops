@@ -1,3 +1,4 @@
+# Script to Generate 1024 files in S3 Bucket 
 import random
 import os 
 dirname = os.path.dirname(__file__)
