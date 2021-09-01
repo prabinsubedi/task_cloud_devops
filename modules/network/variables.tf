@@ -5,7 +5,7 @@ variable "subnetPublicName" {
   type    = string
   description = "Public Subnet Name"
 }
-variable "subnetPrivateName" {}
+
 variable "availabilityZonePublic" {}
 
 variable "igwId" {

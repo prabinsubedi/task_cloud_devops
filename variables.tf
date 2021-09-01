@@ -2,10 +2,7 @@ variable "awsRegion" {
   type        = string
   description = "Aws Region"
 }
-variable "awsZone" {
-  type    = string
-  description = "Zone for the Monese Task"
-}
+
 variable "envName" {
   type        = string
   description = "Environment Name"
