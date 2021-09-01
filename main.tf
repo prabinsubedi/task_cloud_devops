@@ -29,7 +29,7 @@ module "igw" {
 
 module "s3" {
   source               = "./modules/s3"
-  bucketName           = "${local.env}-${var.awsRegion}-bucket"
+  bucketName           = "${local.env}-${var.awsRegion}"
   acl                  = "private"
   elbLogExpirationDays = "1"
   versioning = {

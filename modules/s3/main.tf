@@ -1,6 +1,6 @@
 
 resource "aws_s3_bucket" "bucket_files" {
-  bucket = "${var.bucketName}-files"
+  bucket = "${var.bucketName}-objects"
   acl    = var.acl
   force_destroy = true
   
