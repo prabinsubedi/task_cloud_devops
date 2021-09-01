@@ -30,3 +30,6 @@ output "publicSubnet" {
 output "albTargetGroup" {
     value = module.elb.albTargetGroup
 }
+output "dns_name" {
+    value = module.elb.dns_name
+}

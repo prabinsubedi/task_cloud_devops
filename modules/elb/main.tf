@@ -16,8 +16,8 @@ resource "aws_lb" "lambda_function_access" {
 }
 resource "aws_lb_listener" "http" {
   load_balancer_arn = aws_lb.lambda_function_access.arn
-  port              = "80"
-  protocol          = "HTTP"
+  port              = var.port
+  protocol          = var.protocol
   
   default_action {
     type = "fixed-response"
