@@ -33,16 +33,11 @@ module "s3" {
     source = "./modules/s3"
     bucketName = "${local.env}-${var.awsRegion}-bucket"
     acl = "private"
-    elbLogExpirationDays = "3"
+    elbLogExpirationDays = "1"
     versioning = {
         enabled = true
     }
 }
-
-# module "elasticIp" {
-#   source  = "./modules/elasticIp"
-#   eipName = "${local.env}-Elastic-IP-Nat"
-# }
 
 module "iam" {
   source = "./modules/iam"
